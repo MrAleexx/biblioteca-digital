@@ -41,3 +41,11 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+declare module 'framer-motion' {
+    export * from 'framer-motion';
+}
+
+declare module 'lucide-react' {
+    export * from 'lucide-react';
+}

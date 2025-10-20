@@ -62,74 +62,103 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
+    /* ========== COLORES PRINCIPALES - MODO CLARO ========== */
+    --primary: #2563eb;     
+    --primary-foreground: #ffffff;
+    
+    --secondary: #059669;    
+    --secondary-foreground: #ffffff;
+    
+    /* ========== COLORES DE ESTADO - MODO CLARO ========== */
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+
+    /* ========== COLORES NEUTROS - MODO CLARO ========== */
+    --background: #f8fafc;        /* neutral-50 */
+    --foreground: #0f172a;        /* neutral-900 */
+    --card: #ffffff;
+    --card-foreground: #0f172a;   /* neutral-900 */
+    --popover: #ffffff;
+    --popover-foreground: #0f172a; /* neutral-900 */
+    --muted: #f1f5f9;             /* neutral-100 */
+    --muted-foreground: #64748b;  /* neutral-500 */
+    --accent: #f1f5f9;            /* neutral-100 */
+    --accent-foreground: #0f172a; /* neutral-900 */
+    --border: #e2e8f0;            /* neutral-200 */
+    --input: #e2e8f0;             /* neutral-200 */
+    --ring: #2563eb;              /* primary */
+
+    /* ========== CHART COLORS - MODO CLARO ========== */
+    --chart-1: #2563eb;           /* primary */
+    --chart-2: #059669;           /* secondary */
+    --chart-3: #f59e0b;           /* warning */
+    --chart-4: #ef4444;           /* error */
+    --chart-5: #8b5cf6;           /* purple para variedad */
+
+    /* ========== SIDEBAR - MODO CLARO ========== */
+    --sidebar: #f1f5f9;           /* neutral-100 */
+    --sidebar-foreground: #0f172a; /* neutral-900 */
+    --sidebar-primary: #2563eb;    /* primary */
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #e2e8f0;     /* neutral-200 */
+    --sidebar-accent-foreground: #0f172a; /* neutral-900 */
+    --sidebar-border: #e2e8f0;     /* neutral-200 */
+    --sidebar-ring: #2563eb;       /* primary */
+
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.439 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(0.269 0 0);
-    --sidebar-ring: oklch(0.439 0 0);
+    /* ========== COLORES PRINCIPALES - MODO OSCURO ========== */
+    /* Mantenemos los mismos colores pero ajustamos contraste */
+    --primary: #3b82f6;           /* primary-light para mejor contraste en oscuro */
+    --primary-foreground: #ffffff;
+    
+    --secondary: #10b981;         /* secondary-light para mejor contraste */
+    --secondary-foreground: #ffffff;
+    
+    /* ========== COLORES DE ESTADO - MODO OSCURO ========== */
+    --destructive: #f87171;       /* red-400 para mejor visibilidad */
+    --destructive-foreground: #ffffff;
+    --success: #34d399;           /* green-400 */
+    --warning: #fbbf24;           /* amber-400 */
+    --info: #60a5fa;              /* blue-400 */
+
+    /* ========== COLORES NEUTROS - MODO OSCURO ========== */
+    /* Invertimos la escala para modo oscuro */
+    --background: #0f172a;        /* neutral-900 */
+    --foreground: #f8fafc;        /* neutral-50 */
+    --card: #1e293b;              /* neutral-800 */
+    --card-foreground: #f8fafc;   /* neutral-50 */
+    --popover: #1e293b;           /* neutral-800 */
+    --popover-foreground: #f8fafc; /* neutral-50 */
+    --muted: #1e293b;             /* neutral-800 */
+    --muted-foreground: #94a3b8;  /* neutral-400 */
+    --accent: #334155;            /* neutral-700 */
+    --accent-foreground: #f8fafc; /* neutral-50 */
+    --border: #334155;            /* neutral-700 */
+    --input: #334155;             /* neutral-700 */
+    --ring: #3b82f6;              /* primary-light */
+
+    /* ========== CHART COLORS - MODO OSCURO ========== */
+    --chart-1: #3b82f6;           /* primary-light */
+    --chart-2: #10b981;           /* secondary-light */
+    --chart-3: #fbbf24;           /* warning-light */
+    --chart-4: #f87171;           /* destructive-light */
+    --chart-5: #a78bfa;           /* purple-light */
+
+    /* ========== SIDEBAR - MODO OSCURO ========== */
+    --sidebar: #1e293b;           /* neutral-800 */
+    --sidebar-foreground: #f8fafc; /* neutral-50 */
+    --sidebar-primary: #3b82f6;    /* primary-light */
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #334155;     /* neutral-700 */
+    --sidebar-accent-foreground: #f8fafc; /* neutral-50 */
+    --sidebar-border: #334155;     /* neutral-700 */
+    --sidebar-ring: #3b82f6;       /* primary-light */
 }
 
 @layer base {
@@ -140,4 +169,198 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+/* ========== CLASES UTILITARIAS PARA COLORES ESPECÍFICOS ========== */
+
+/* Colores Primarios */
+.bg-primary { background-color: var(--primary); }
+.bg-primary-dark { background-color: #1d4ed8; }
+.bg-primary-light { background-color: #3b82f6; }
+
+.text-primary { color: var(--primary); }
+.text-primary-dark { color: #1d4ed8; }
+.text-primary-light { color: #3b82f6; }
+
+.hover\:bg-primary:hover { background-color: var(--primary); }
+.hover\:bg-primary-dark:hover { background-color: #1d4ed8; }
+.hover\:bg-primary-light:hover { background-color: #3b82f6; }
+
+/* Colores Secundarios */
+.bg-secondary { background-color: var(--secondary); }
+.bg-secondary-dark { background-color: #047857; }
+.bg-secondary-light { background-color: #10b981; }
+
+.text-secondary { color: var(--secondary); }
+.text-secondary-dark { color: #047857; }
+.text-secondary-light { color: #10b981; }
+
+.hover\:bg-secondary:hover { background-color: var(--secondary); }
+.hover\:bg-secondary-dark:hover { background-color: #047857; }
+.hover\:bg-secondary-light:hover { background-color: #10b981; }
+
+/* ========== COLORES NEUTROS ESPECÍFICOS ========== */
+.bg-neutral-50 { background-color: #f8fafc; }
+.bg-neutral-100 { background-color: #f1f5f9; }
+.bg-neutral-200 { background-color: #e2e8f0; }
+.bg-neutral-300 { background-color: #cbd5e1; }
+.bg-neutral-400 { background-color: #94a3b8; }
+.bg-neutral-500 { background-color: #64748b; }
+.bg-neutral-600 { background-color: #475569; }
+.bg-neutral-700 { background-color: #334155; }
+.bg-neutral-800 { background-color: #1e293b; }
+.bg-neutral-900 { background-color: #0f172a; }
+
+.text-neutral-50 { color: #f8fafc; }
+.text-neutral-100 { color: #f1f5f9; }
+.text-neutral-200 { color: #e2e8f0; }
+.text-neutral-300 { color: #cbd5e1; }
+.text-neutral-400 { color: #94a3b8; }
+.text-neutral-500 { color: #64748b; }
+.text-neutral-600 { color: #475569; }
+.text-neutral-700 { color: #334155; }
+.text-neutral-800 { color: #1e293b; }
+.text-neutral-900 { color: #0f172a; }
+
+/* Versiones para modo oscuro */
+.dark .bg-neutral-50 { background-color: #0f172a; }
+.dark .bg-neutral-100 { background-color: #1e293b; }
+.dark .bg-neutral-200 { background-color: #334155; }
+.dark .bg-neutral-300 { background-color: #475569; }
+.dark .bg-neutral-400 { background-color: #64748b; }
+.dark .bg-neutral-500 { background-color: #94a3b8; }
+.dark .bg-neutral-600 { background-color: #cbd5e1; }
+.dark .bg-neutral-700 { background-color: #e2e8f0; }
+.dark .bg-neutral-800 { background-color: #f1f5f9; }
+.dark .bg-neutral-900 { background-color: #f8fafc; }
+
+.dark .text-neutral-50 { color: #0f172a; }
+.dark .text-neutral-100 { color: #1e293b; }
+.dark .text-neutral-200 { color: #334155; }
+.dark .text-neutral-300 { color: #475569; }
+.dark .text-neutral-400 { color: #64748b; }
+.dark .text-neutral-500 { color: #94a3b8; }
+.dark .text-neutral-600 { color: #cbd5e1; }
+.dark .text-neutral-700 { color: #e2e8f0; }
+.dark .text-neutral-800 { color: #f1f5f9; }
+.dark .text-neutral-900 { color: #f8fafc; }
+
+/* ========== ESTADOS DE COLOR ========== */
+.bg-success { background-color: var(--success); }
+.bg-warning { background-color: var(--warning); }
+.bg-error { background-color: var(--destructive); }
+.bg-info { background-color: var(--info); }
+
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-error { color: var(--destructive); }
+.text-info { color: var(--info); }
+
+/* ========== GRADIENTES ========== */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+}
+
+.bg-gradient-secondary {
+    background: linear-gradient(135deg, var(--secondary) 0%, #10b981 100%);
+}
+
+.bg-gradient-to-br {
+    background: linear-gradient(135deg, var(--background) 0%, var(--muted) 100%);
+}
+
+/* ========== EFECTOS HOVER ESPECÍFICOS ========== */
+.hover\:brightness-95:hover {
+    filter: brightness(0.95);
+}
+
+.dark .hover\:brightness-110:hover {
+    filter: brightness(1.1);
+}
+
+/* ========== BORDES Y SOMBRAS ========== */
+.border-primary { border-color: var(--primary); }
+.border-secondary { border-color: var(--secondary); }
+.border-neutral-200 { border-color: #e2e8f0; }
+.border-neutral-700 { border-color: #334155; }
+
+.dark .border-neutral-200 { border-color: #334155; }
+.dark .border-neutral-700 { border-color: #e2e8f0; }
+
+
+/* ========== CORRECCIONES ESPECÍFICAS SIN AFECTAR GLOBAL ========== */
+
+/* Footer - mismo color en ambos temas */
+footer.bg-neutral-800,
+footer.bg-neutral-900 {
+    background-color: #1e293b !important; /* neutral-800 */
+    color: #e2e8f0 !important; /* neutral-200 */
+}
+
+/* Textos específicos del footer */
+footer .text-white {
+    color: #f8fafc !important;
+}
+
+footer .text-neutral-300,
+footer .text-neutral-400 {
+    color: #cbd5e1 !important;
+}
+
+footer a:hover {
+    color: #ffffff !important;
+}
+
+/* Botones específicos con mejor contraste */
+.bg-gradient-to-r.from-primary.to-primary-dark .text-white,
+.bg-gradient-to-r.from-secondary.to-secondary-dark .text-white {
+    color: #ffffff !important;
+}
+
+/* CTA Section específica */
+section.bg-neutral-900,
+section.bg-neutral-950 {
+    background-color: #1e293b !important;
+}
+
+section.bg-neutral-900 .text-neutral-300,
+section.bg-neutral-950 .text-neutral-300 {
+    color: #e2e8f0 !important;
+}
+
+section.bg-neutral-900 .text-neutral-400,
+section.bg-neutral-950 .text-neutral-400 {
+    color: #cbd5e1 !important;
+}
+
+/* Textos específicos en CTA */
+section.bg-neutral-900 h2,
+section.bg-neutral-950 h2 {
+    color: #ffffff !important;
+}
+
+section.bg-neutral-900 p.text-neutral-300,
+section.bg-neutral-950 p.text-neutral-300 {
+    color: #e2e8f0 !important;
+    font-weight: 500;
+}
+
+/* Botones específicos del header y hero */
+header .bg-gradient-to-r.from-primary.to-primary-dark,
+.hero-section .bg-gradient-to-r.from-primary.to-primary-dark {
+    color: #ffffff !important;
+}
+
+header .bg-gradient-to-r.from-secondary.to-secondary-dark,
+.hero-section .bg-gradient-to-r.from-secondary.to-secondary-dark {
+    color: #ffffff !important;
+}
+
+/* Textos específicos que necesitan más contraste */
+.cta-section .text-neutral-300 {
+    color: #e2e8f0 !important;
+}
+
+.cta-section .text-neutral-400 {
+    color: #cbd5e1 !important;
 }
