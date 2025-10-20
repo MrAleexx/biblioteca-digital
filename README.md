@@ -23,7 +23,7 @@ git clone https://github.com/MrAleexx/biblioteca-digital.git
 Navega al directorio del proyecto:
 
 ```bash
-cd eBooks-A-T
+cd biblioteca-digital
 ```
 
 #### 3\. Instalar Dependencias
