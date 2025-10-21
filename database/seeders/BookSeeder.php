@@ -5,13 +5,36 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Seeder de libros para la biblioteca digital
+ * 
+ * Crea 25 libros de prueba con datos realistas incluyendo:
+ * - Información básica (título, ISBN, páginas, año)
+ * - Relaciones (categorías, autores, editorial)
+ * - Estadísticas simuladas (descargas, vistas, préstamos)
+ * - Variedad de tipos (digital, físico, ambos)
+ * 
+ * Los datos incluyen literatura peruana, clásicos universales,
+ * libros técnicos y académicos para demostrar todas las funcionalidades.
+ * 
+ * @package Database\Seeders
+ */
 class BookSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Ejecutar el seeder
+     * 
+     * Proceso:
+     * 1. Crear 25 libros en la tabla books
+     * 2. Asignar categorías a cada libro (tabla pivot book_category)
+     * 3. Crear detalles extendidos (tabla book_details)
+     * 4. Crear contribuidores/autores (tabla book_contributors)
+     * 
+     * @return void
      */
     public function run(): void
     {
+        // Array con 25 libros de prueba
         $books = [
             [
                 'title' => 'Cien Años de Soledad',
@@ -20,11 +43,11 @@ class BookSeeder extends Seeder
                 'language_code' => 'es',
                 'pages' => 471,
                 'publication_year' => 1967,
-                'cover_image' => null, // TODO: Subir imagen real
-                'pdf_file' => null, // TODO: Subir PDF real
+                'cover_image' => null, // Se puede agregar portada en storage/app/public/covers/
+                'pdf_file' => null,    // Se puede agregar PDF en storage/app/public/books/
                 'is_active' => true,
                 'downloadable' => true,
-                'book_type' => 'both',
+                'book_type' => 'both', // Disponible digital y físico
                 'total_downloads' => 150,
                 'total_physical_copies' => 3,
                 'available_physical_copies' => 2,
@@ -576,10 +599,10 @@ class BookSeeder extends Seeder
 
             // Asignar categorías a cada libro
             $this->assignCategories($bookId, $book['title']);
-            
+
             // Crear detalles del libro
             $this->createBookDetails($bookId, $book);
-            
+
             // Crear contribuidores (autores)
             $this->createContributors($bookId, $book['title']);
         }
@@ -665,7 +688,7 @@ class BookSeeder extends Seeder
             'description' => $descriptions[$book['title']] ?? 'Descripción del libro.',
             'edition' => '1ra',
             'file_format' => 'PDF',
-            'file_size' => rand(1, 50) . ' MB',
+            'file_size' => rand(1, 50).' MB',
             'reading_age' => $book['access_level'] === 'institutional' ? '18+' : 'Todas las edades',
             'created_at' => now(),
             'updated_at' => now(),

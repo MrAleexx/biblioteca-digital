@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('book_contributors', function (Blueprint $table) {
             $table->id();
-            
+
             // Relación con libro
             $table->foreignId('book_id')
                 ->constrained('books')
                 ->onDelete('cascade');
-            
+
             // ✅ MEJORA: Cambiado de VARCHAR a ENUM (evita inconsistencias)
             $table->enum('contributor_type', [
                 'author',       // Autor principal
@@ -26,22 +26,22 @@ return new class extends Migration
                 'editor',       // Editor
                 'translator',   // Traductor
                 'illustrator',  // Ilustrador
-                'compiler'      // Compilador
+                'compiler',      // Compilador
             ])->default('author');
-            
+
             // Información del contribuyente
             $table->string('full_name', 200);
             $table->string('email', 100)->nullable();
-            
+
             // Orden de aparición (para múltiples autores)
             $table->integer('sequence_number')->default(1);
-            
+
             // Biografía corta
             $table->text('biographical_note')->nullable();
-            
+
             $table->timestamps();
             $table->softDeletes(); // ✅ MEJORA: Soft delete
-            
+
             // Índices para ordenar autores correctamente
             $table->index(['book_id', 'sequence_number']);
             $table->index('contributor_type');

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
@@ -91,7 +90,7 @@ class CategorySeeder extends Seeder
 
         // Subcategorías (ejemplo)
         $literaturaId = DB::table('categories')->where('slug', 'literatura')->value('id');
-        
+
         $subcategories = [
             [
                 'name' => 'Novela Peruana',

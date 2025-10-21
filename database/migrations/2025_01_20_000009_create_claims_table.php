@@ -13,55 +13,55 @@ return new class extends Migration
     {
         Schema::create('claims', function (Blueprint $table) {
             $table->id();
-            
+
             // Información del reclamante
             $table->string('name');
             $table->string('dni');
             $table->string('email');
-            
+
             // Tipo de reclamo
             $table->enum('tipo_reclamo', [
                 'problema_descarga',    // No puede descargar un libro
                 'cobro_indebido',       // Le cobraron mal
                 'acceso_cuenta',        // Problemas con su cuenta
-                'otro'                  // Otros
+                'otro',                  // Otros
             ]);
-            
+
             $table->string('subject');
             $table->text('description'); // ✅ MEJORA: Cambiado de VARCHAR(255) a TEXT
-            
+
             // ✅ MEJORA CRÍTICA: Sistema de gestión de reclamos
             $table->enum('status', [
                 'pending',          // Pendiente de revisión
                 'in_progress',      // En proceso de atención
                 'resolved',         // Resuelto
                 'closed',           // Cerrado
-                'rejected'          // Rechazado
+                'rejected',          // Rechazado
             ])->default('pending');
-            
+
             // ✅ MEJORA: Prioridad del reclamo
             $table->enum('priority', [
                 'low',              // Baja prioridad
                 'medium',           // Media
                 'high',             // Alta
-                'urgent'            // Urgente
+                'urgent',            // Urgente
             ])->default('medium');
-            
+
             // ✅ MEJORA: ¿Quién atiende el reclamo?
             $table->foreignId('assigned_to')
                 ->nullable()
                 ->constrained('users')
                 ->onDelete('set null');
-            
+
             // ✅ MEJORA: ¿Cuándo se resolvió?
             $table->timestamp('resolved_at')->nullable();
-            
+
             // ✅ MEJORA: Respuesta del staff
             $table->text('resolution_notes')->nullable();
-            
+
             $table->timestamps();
             $table->softDeletes(); // ✅ MEJORA: Soft delete
-            
+
             // Índices para filtros en panel admin
             $table->index('status');
             $table->index('priority');

@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
-            
+
             // Información de la editorial
             $table->string('name')->unique();
             $table->string('city')->nullable();
             $table->string('country')->default('Perú');
             $table->string('website')->nullable();
-            
+
             // Control de visibilidad
             $table->boolean('is_active')->default(true);
-            
+
             $table->timestamps();
             $table->softDeletes(); // ✅ MEJORA: Soft delete para no perder historial
         });
