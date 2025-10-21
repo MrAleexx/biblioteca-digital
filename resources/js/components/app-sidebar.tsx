@@ -22,6 +22,11 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Gestión de Libros',
+        href: '/books',
+        icon: BookOpen,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

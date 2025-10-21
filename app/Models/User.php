@@ -11,7 +11,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, \Illuminate\Database\Eloquent\SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,8 +20,22 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
+        'institutional_email',
+        'dni',
+        'phone',
         'password',
+        'microsoft_id',
+        'google_id',
+        'is_temp_password',
+        'temp_password_expires_at',
+        'role',
+        'downloads_today',
+        'last_download_reset',
+        'created_by',
+        'is_active',
+        'last_login_at',
     ];
 
     /**
@@ -47,6 +61,59 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'is_temp_password' => 'boolean',
+            'temp_password_expires_at' => 'datetime',
+            'is_active' => 'boolean',
+            'last_login_at' => 'datetime',
+            'last_download_reset' => 'date',
         ];
+    }
+
+    // Relaciones
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function createdUsers()
+    {
+        return $this->hasMany(User::class, 'created_by');
+    }
+
+    // Scopes
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeAdmins($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    public function scopeLibrarians($query)
+    {
+        return $query->where('role', 'librarian');
+    }
+
+    // Helper methods
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isLibrarian(): bool
+    {
+        return $this->role === 'librarian';
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->name} {$this->last_name}";
     }
 }
