@@ -138,20 +138,15 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean;
                             </motion.div>
 
                             <nav className="hidden md:flex items-center space-x-8">
-                                {[
-                                    { text: 'Características', id: 'caracteristicas' },
-                                    { text: 'Estadísticas', id: 'estadisticas' },
-                                    { text: 'Testimonios', id: 'testimonios' },
-                                    { text: 'Precios', id: 'precios' }
-                                ].map((item) => (
+                                {['Características', 'Estadísticas', 'Testimonios', 'Precios'].map((item) => (
                                     <motion.a
-                                        key={item.text}
-                                        href={`#${item.id}`}
+                                        key={item}
+                                        href={`#${item.toLowerCase()}`}
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                         className="text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary-light transition-colors font-medium"
                                     >
-                                        {item.text}
+                                        {item}
                                     </motion.a>
                                 ))}
                             </nav>

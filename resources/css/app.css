@@ -278,6 +278,8 @@
     filter: brightness(1.1);
 }
 
+.hover\:text-white:hover { color: #ffffff !important; }
+
 /* ========== BORDES Y SOMBRAS ========== */
 .border-primary { border-color: var(--primary); }
 .border-secondary { border-color: var(--secondary); }
