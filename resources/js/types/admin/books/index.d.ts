@@ -41,13 +41,6 @@ export interface Language {
     native_name?: string;
 }
 
-export interface Category {
-    id: number;
-    name: string;
-    slug: string;
-    description?: string;
-    is_active?: boolean;
-}
 
 export interface Contributor {
     id: number;

@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Middleware para verificar roles de usuario
- * 
+ *
  * Valida que el usuario autenticado tenga uno de los roles permitidos.
  * Si no tiene permiso, redirige al dashboard con error 403.
- * 
+ *
  * Uso en rutas:
  * Route::middleware(['auth', 'role:admin,librarian'])->group(...)
- * 
+ *
  * @package App\Http\Middleware
  */
 class CheckRole

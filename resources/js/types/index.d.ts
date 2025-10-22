@@ -2,6 +2,7 @@
 import { InertiaLinkProps } from '@inertiajs/react';
 import { LucideIcon } from 'lucide-react';
 export * from './admin/books/index';
+export * from './admin/categories/index';
 export interface Auth {
     user: User;
 }

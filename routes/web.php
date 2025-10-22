@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /**
  * Ruta pública - Página de bienvenida
@@ -27,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:admin,librarian', 'throttle:60,1'])->group(function () {
     // CRUD completo de libros
     Route::resource('books', BookController::class);
-    
+
     // Acciones adicionales sobre libros
     Route::post('books/{book}/toggle-status', [BookController::class, 'toggleStatus'])
         ->name('books.toggle-status');
@@ -35,7 +36,12 @@ Route::middleware(['auth', 'verified', 'role:admin,librarian', 'throttle:60,1'])
         ->name('books.toggle-featured');
 
     Route::get('/books/{book}/download-pdf', [BookController::class, 'downloadPdf'])->name('books.download-pdf');
+
+    // Rutas de categorías
+    Route::resource('categories', CategoryController::class);
+    Route::post('/categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggle-status');
+    Route::get('/categories/api/categories', [CategoryController::class, 'getCategories'])->name('categories.api');
 });
 
 // Rutas de configuración de usuario
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

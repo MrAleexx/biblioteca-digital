@@ -1,10 +1,22 @@
+import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { BookOpen, Users, FolderOpen, Building2 } from 'lucide-react';
+import {
+    BookOpen,
+    Building2,
+    FolderOpen,
+    FolderTree,
+    Users,
+} from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -36,7 +48,8 @@ interface Props {
 }
 
 export default function Dashboard({ user, stats }: Props) {
-    const isAdminOrLibrarian = user.role === 'admin' || user.role === 'librarian';
+    const isAdminOrLibrarian =
+        user.role === 'admin' || user.role === 'librarian';
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -46,9 +59,9 @@ export default function Dashboard({ user, stats }: Props) {
                     <h1 className="text-3xl font-bold text-foreground">
                         Bienvenido, {user.name}
                     </h1>
-                    <p className="text-muted-foreground mt-1">
-                        {isAdminOrLibrarian 
-                            ? 'Resumen general de la Biblioteca Digital' 
+                    <p className="mt-1 text-muted-foreground">
+                        {isAdminOrLibrarian
+                            ? 'Resumen general de la Biblioteca Digital'
                             : 'Tu biblioteca digital personalizada'}
                     </p>
                 </div>
@@ -58,63 +71,113 @@ export default function Dashboard({ user, stats }: Props) {
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">Total Libros</CardTitle>
+                                    <CardTitle className="text-sm font-medium">
+                                        Total Libros
+                                    </CardTitle>
                                     <BookOpen className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">{stats.total_books}</div>
-                                    <p className="text-xs text-muted-foreground">{stats.active_books} activos</p>
+                                    <div className="text-2xl font-bold">
+                                        {stats.total_books}
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">
+                                        {stats.active_books} activos
+                                    </p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">Usuarios</CardTitle>
+                                    <CardTitle className="text-sm font-medium">
+                                        Usuarios
+                                    </CardTitle>
                                     <Users className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">{stats.total_users}</div>
-                                    <p className="text-xs text-muted-foreground">{stats.active_users} activos</p>
+                                    <div className="text-2xl font-bold">
+                                        {stats.total_users}
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">
+                                        {stats.active_users} activos
+                                    </p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">Categorías</CardTitle>
+                                    <CardTitle className="text-sm font-medium">
+                                        Categorías
+                                    </CardTitle>
                                     <FolderOpen className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">{stats.total_categories}</div>
-                                    <p className="text-xs text-muted-foreground">Organizadas</p>
+                                    <div className="text-2xl font-bold">
+                                        {stats.total_categories}
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">
+                                        Organizadas
+                                    </p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">Editoriales</CardTitle>
+                                    <CardTitle className="text-sm font-medium">
+                                        Editoriales
+                                    </CardTitle>
                                     <Building2 className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">{stats.total_publishers}</div>
-                                    <p className="text-xs text-muted-foreground">Registradas</p>
+                                    <div className="text-2xl font-bold">
+                                        {stats.total_publishers}
+                                    </div>
+                                    <p className="text-xs text-muted-foreground">
+                                        Registradas
+                                    </p>
                                 </CardContent>
                             </Card>
                         </div>
 
                         <div>
-                            <h2 className="text-xl font-semibold mb-4">Módulos del Sistema</h2>
+                            <h2 className="mb-4 text-xl font-semibold">
+                                Módulos del Sistema
+                            </h2>
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 <Link href="/books">
-                                    <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                                    <Card className="cursor-pointer transition-shadow hover:shadow-lg">
                                         <CardHeader>
-                                            <BookOpen className="h-8 w-8 text-primary mb-2" />
-                                            <CardTitle>Gestión de Libros</CardTitle>
+                                            <BookOpen className="mb-2 h-8 w-8 text-primary" />
+                                            <CardTitle>
+                                                Gestión de Libros
+                                            </CardTitle>
                                             <CardDescription>
-                                                Ver, crear, editar y gestionar el catálogo completo
+                                                Ver, crear, editar y gestionar
+                                                el catálogo completo
                                             </CardDescription>
                                         </CardHeader>
                                         <CardContent>
-                                            <Button className="w-full">Abrir Módulo →</Button>
+                                            <Button className="w-full">
+                                                Abrir Módulo →
+                                            </Button>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
+                                <Link href="/categories">
+                                    <Card className="cursor-pointer transition-shadow hover:shadow-lg">
+                                        <CardHeader>
+                                            <FolderTree className="mb-2 h-8 w-8 text-primary" />
+                                            <CardTitle>
+                                                Gestión de Categorías
+                                            </CardTitle>
+                                            <CardDescription>
+                                                Organizar categorías principales
+                                                y secundarias del catálogo
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <Button className="w-full">
+                                                Abrir Módulo →
+                                            </Button>
                                         </CardContent>
                                     </Card>
                                 </Link>
