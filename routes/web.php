@@ -1,49 +1,39 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Laravel\Fortify\Features;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
-})->name('home');
+/**
+ * Ruta pública - Página de bienvenida
+ */
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
+/**
+ * Rutas autenticadas
+ * Requiere: usuario logueado y email verificado
+ */
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard - Vista general con estadísticas
-    Route::get('dashboard', function (Request $request) {
-        $user = Auth::user();
-
-        $data = ['user' => $user];
-
-        // Cargar estadísticas solo para admin/bibliotecario
-        if ($user->role === 'admin' || $user->role === 'librarian') {
-            $data['stats'] = [
-                'total_books' => \App\Models\Book::count(),
-                'active_books' => \App\Models\Book::where('is_active', true)->count(),
-                'featured_books' => \App\Models\Book::where('featured', true)->count(),
-                'total_users' => \App\Models\User::count(),
-                'active_users' => \App\Models\User::where('is_active', true)->count(),
-                'total_categories' => \App\Models\Category::count(),
-                'total_publishers' => \App\Models\Publisher::count(),
-            ];
-        }
-
-        return Inertia::render('dashboard', $data);
-    })->name('dashboard');
+    // Dashboard principal
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-// Rutas de gestión de libros (solo admin y bibliotecario)
-// Rate limiting: máximo 60 peticiones por minuto para evitar abuso
+/**
+ * Rutas de gestión de libros
+ * Requiere: autenticación + verificación + rol admin/librarian
+ * Rate limiting: 60 peticiones por minuto
+ */
 Route::middleware(['auth', 'verified', 'role:admin,librarian', 'throttle:60,1'])->group(function () {
-    Route::resource('books', App\Http\Controllers\BookController::class);
-    Route::post('books/{book}/toggle-status', [App\Http\Controllers\BookController::class, 'toggleStatus'])
+    // CRUD completo de libros
+    Route::resource('books', BookController::class);
+    
+    // Acciones adicionales sobre libros
+    Route::post('books/{book}/toggle-status', [BookController::class, 'toggleStatus'])
         ->name('books.toggle-status');
-    Route::post('books/{book}/toggle-featured', [App\Http\Controllers\BookController::class, 'toggleFeatured'])
+    Route::post('books/{book}/toggle-featured', [BookController::class, 'toggleFeatured'])
         ->name('books.toggle-featured');
 });
 
+// Rutas de configuración de usuario
 require __DIR__.'/settings.php';
