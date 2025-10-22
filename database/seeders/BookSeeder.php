@@ -688,7 +688,7 @@ class BookSeeder extends Seeder
             'description' => $descriptions[$book['title']] ?? 'Descripción del libro.',
             'edition' => '1ra',
             'file_format' => 'PDF',
-            'file_size' => rand(1, 50).' MB',
+            'file_size' => rand(1, 50) . ' MB',
             'reading_age' => $book['access_level'] === 'institutional' ? '18+' : 'Todas las edades',
             'created_at' => now(),
             'updated_at' => now(),

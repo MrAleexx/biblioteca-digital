@@ -1,3 +1,4 @@
+// resources/js/layouts/app/app-header-layout.tsx
 import { AppContent } from '@/components/app-content';
 import { AppHeader } from '@/components/app-header';
 import { AppShell } from '@/components/app-shell';

@@ -33,6 +33,8 @@ Route::middleware(['auth', 'verified', 'role:admin,librarian', 'throttle:60,1'])
         ->name('books.toggle-status');
     Route::post('books/{book}/toggle-featured', [BookController::class, 'toggleFeatured'])
         ->name('books.toggle-featured');
+
+    Route::get('/books/{book}/download-pdf', [BookController::class, 'downloadPdf'])->name('books.download-pdf');
 });
 
 // Rutas de configuración de usuario

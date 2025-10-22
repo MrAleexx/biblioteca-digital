@@ -1,15 +1,17 @@
+// resources/js/pages/books/index.tsx
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { type BreadcrumbItem,type Book,type Category,type BookStats,type PaginatedBooks} from '@/types';
+import { Head, router, Link } from '@inertiajs/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { 
-    BookOpen, Search, Eye, Edit, Trash2, ChevronLeft, ChevronRight
+    BookOpen, Search, Eye, Edit, Trash2, ChevronLeft, ChevronRight,
+    ToggleLeft, ToggleRight, Star, Plus 
 } from 'lucide-react';
 import { useState } from 'react';
-import { BookDetailsModal } from '@/components/book-details-modal';
+import { BookDetailsModal } from '../../components/admin/books/book-details-modal';
 
 // Breadcrumbs para navegación
 const breadcrumbs: BreadcrumbItem[] = [
@@ -17,80 +19,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Gestión de Libros', href: '/books' },
 ];
 
-// ===== INTERFACES DE TIPOS =====
-
-interface Category {
-    id: number;
-    name: string;
-    slug: string;
-}
-
-interface Publisher {
-    id: number;
-    name: string;
-    country?: string;
-}
-
-interface Language {
-    code: string;
-    name: string;
-}
-
-interface Contributor {
-    id: number;
-    full_name: string;
-    contributor_type: string;
-}
-
-interface Book {
-    id: number;
-    title: string;
-    isbn: string;
-    publication_year?: number;
-    pages: number;
-    cover_image?: string;
-    is_active: boolean;
-    featured: boolean;
-    book_type: string;
-    access_level: string;
-    copyright_status: string;
-    total_views: number;
-    total_downloads: number;
-    total_loans?: number;
-    created_at: string;
-    publisher?: Publisher;
-    language?: Language;
-    categories?: Category[];
-    contributors?: Contributor[];
-}
-
-interface PaginationLink {
-    url: string | null;
-    label: string;
-    active: boolean;
-}
-
-interface PaginatedBooks {
-    data: Book[];
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-    from: number;
-    to: number;
-    links: PaginationLink[];
-}
-
-interface Stats {
-    total_books: number;
-    active_books: number;
-    featured_books: number;
-}
-
 interface Props {
     books: PaginatedBooks;
     categories: Category[];
-    stats: Stats;
+    stats: BookStats;
     filters: {
         search?: string;
         category?: string;
@@ -107,7 +39,7 @@ interface Props {
  * - Filtro por categoría
  * - Filtro por estado (activo/inactivo)
  * - Ver detalles en modal
- * - Botones de acción (editar, eliminar)
+ * - Botones de acción (editar, eliminar, toggle status/featured)
  * 
  * @param props Props con libros, categorías, stats y filtros actuales
  */
@@ -184,6 +116,56 @@ export default function BooksIndex({ books, categories, stats, filters }: Props)
             .join(', ') || 'Sin autor';
     };
 
+    /**
+     * Alternar estado activo/inactivo de un libro
+     */
+    const handleToggleStatus = (book: Book) => {
+        if (confirm(`¿Estás seguro de que quieres ${book.is_active ? 'desactivar' : 'activar'} "${book.title}"?`)) {
+            router.post(`/books/${book.id}/toggle-status`, {}, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    // Recargar la página para reflejar los cambios
+                    router.reload({ only: ['books'] });
+                }
+            });
+        }
+    };
+
+    /**
+     * Alternar estado destacado de un libro
+     */
+    const handleToggleFeatured = (book: Book) => {
+        router.post(`/books/${book.id}/toggle-featured`, {}, {
+            preserveScroll: true,
+            onSuccess: () => {
+                // Recargar la página para reflejar los cambios
+                router.reload({ only: ['books'] });
+            }
+        });
+    };
+
+    /**
+     * Eliminar un libro con confirmación
+     */
+    const handleDelete = (book: Book) => {
+        if (confirm(`¿Estás seguro de que quieres eliminar "${book.title}"? Esta acción no se puede deshacer.`)) {
+            router.delete(`/books/${book.id}`, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    // Recargar la página para reflejar los cambios
+                    router.reload({ only: ['books', 'stats'] });
+                }
+            });
+        }
+    };
+
+    /**
+     * Navegar a página de edición
+     */
+    const handleEdit = (book: Book) => {
+        router.get(`/books/${book.id}/edit`);
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Gestión de Libros" />
@@ -197,11 +179,13 @@ export default function BooksIndex({ books, categories, stats, filters }: Props)
                             {stats.total_books} libros en total • {stats.active_books} activos • {stats.featured_books} destacados
                         </p>
                     </div>
-                    {/* TODO: Implementar formulario de creación */}
-                    <Button>
-                        <BookOpen className="h-4 w-4 mr-2" />
-                        Agregar Libro
-                    </Button>
+                    {/* BOTÓN ACTUALIZADO - Usando Link de Inertia */}
+                    <Link href="/books/create">
+                        <Button className="bg-primary hover:bg-primary/90">
+                            <Plus className="h-4 w-4 mr-2" />
+                            Agregar Libro
+                        </Button>
+                    </Link>
                 </div>
 
                 {/* ===== CARD PRINCIPAL CON TABLA ===== */}
@@ -242,7 +226,7 @@ export default function BooksIndex({ books, categories, stats, filters }: Props)
                                 <select
                                     value={selectedCategory}
                                     onChange={(e) => handleCategoryChange(e.target.value)}
-                                    className="border rounded-md px-3 py-2 text-sm min-w-[200px]"
+                                    className="border rounded-md px-3 py-2 text-sm min-w-[200px] bg-background"
                                 >
                                     <option value="">Todas las categorías</option>
                                     {categories?.map(cat => (
@@ -254,7 +238,7 @@ export default function BooksIndex({ books, categories, stats, filters }: Props)
                                 <select
                                     value={selectedStatus}
                                     onChange={(e) => handleStatusChange(e.target.value)}
-                                    className="border rounded-md px-3 py-2 text-sm min-w-[150px]"
+                                    className="border rounded-md px-3 py-2 text-sm min-w-[150px] bg-background"
                                 >
                                     <option value="">Todos los estados</option>
                                     <option value="1">Activos</option>
@@ -351,14 +335,51 @@ export default function BooksIndex({ books, categories, stats, filters }: Props)
                                                 {/* Columna: Botones de acción */}
                                                 <td className="py-3 px-4">
                                                     <div className="flex justify-end gap-2">
-                                                        {/* Modal de detalles (BookDetailsModal) */}
+                                                        {/* Modal de detalles */}
                                                         <BookDetailsModal book={book} />
-                                                        {/* TODO: Implementar edición */}
-                                                        <Button size="sm" variant="outline">
+                                                        
+                                                        {/* Botón editar */}
+                                                        <Button 
+                                                            size="sm" 
+                                                            variant="outline"
+                                                            onClick={() => handleEdit(book)}
+                                                            title="Editar libro"
+                                                        >
                                                             <Edit className="h-4 w-4" />
                                                         </Button>
-                                                        {/* TODO: Implementar eliminación con confirmación */}
-                                                        <Button size="sm" variant="outline">
+                                                        
+                                                        {/* Botón alternar estado */}
+                                                        <Button 
+                                                            size="sm" 
+                                                            variant="outline"
+                                                            onClick={() => handleToggleStatus(book)}
+                                                            title={book.is_active ? 'Desactivar libro' : 'Activar libro'}
+                                                        >
+                                                            {book.is_active ? (
+                                                                <ToggleRight className="h-4 w-4 text-green-600" />
+                                                            ) : (
+                                                                <ToggleLeft className="h-4 w-4 text-gray-400" />
+                                                            )}
+                                                        </Button>
+                                                        
+                                                        {/* Botón destacar */}
+                                                        <Button 
+                                                            size="sm" 
+                                                            variant="outline"
+                                                            onClick={() => handleToggleFeatured(book)}
+                                                            title={book.featured ? 'Quitar destacado' : 'Marcar como destacado'}
+                                                        >
+                                                            <Star className={`h-4 w-4 ${book.featured ? 'text-yellow-500 fill-yellow-500' : 'text-gray-400'}`} />
+                                                        </Button>
+                                                        
+                                                        {/* Botón eliminar */}
+                                                        <Button 
+                                                            size="sm" 
+                                                            variant="outline"
+                                                            onClick={() => handleDelete(book)}
+                                                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                                            title="Eliminar libro"
+                                                        >
                                                             <Trash2 className="h-4 w-4" />
                                                         </Button>
                                                     </div>

@@ -14,10 +14,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 /**
  * Controlador para la gestión completa de libros
- * 
- * Maneja todas las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) 
+ *
+ * Maneja todas las operaciones CRUD (Crear, Leer, Actualizar, Eliminar)
  * para el catálogo de libros de la biblioteca digital.
- * 
+ *
  * Funcionalidades principales:
  * - Listar libros con filtros (búsqueda, categoría, estado)
  * - Crear nuevos libros con metadatos completos
@@ -25,14 +25,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
  * - Eliminar libros (soft delete)
  * - Activar/desactivar libros
  * - Marcar libros como destacados
- * 
+ *
  * Relaciones gestionadas:
  * - Categorías (muchos a muchos)
  * - Contribuidores/Autores (uno a muchos)
  * - Detalles extendidos (uno a uno)
  * - Editorial (muchos a uno)
  * - Idioma (muchos a uno)
- * 
+ *
  * @package App\Http\Controllers
  * @author Sistema Biblioteca Digital
  * @version 1.0.0
@@ -43,16 +43,16 @@ class BookController extends Controller
 
     /**
      * Listar libros con filtros y paginación
-     * 
+     *
      * Muestra el catálogo completo de libros con capacidad de:
      * - Búsqueda por título o ISBN
      * - Filtrado por categoría
      * - Filtrado por estado (activo/inactivo)
      * - Paginación de 10 libros por página
-     * 
+     *
      * Carga eager de relaciones para evitar N+1 queries.
      * Verifica autorización con BookPolicy::viewAny
-     * 
+     *
      * @param Request $request Petición con filtros opcionales (search, category, status)
      * @return \Inertia\Response Vista de gestión de libros
      */
@@ -75,8 +75,8 @@ class BookController extends Controller
         if ($request->filled('search')) {
             $searchTerm = $request->search;
             $query->where(function ($q) use ($searchTerm) {
-                $q->where('title', 'like', '%'.$searchTerm.'%')
-                  ->orWhere('isbn', 'like', '%'.$searchTerm.'%');
+                $q->where('title', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('isbn', 'like', '%' . $searchTerm . '%');
             });
         }
 
@@ -106,9 +106,9 @@ class BookController extends Controller
 
     /**
      * Mostrar detalles completos de un libro específico
-     * 
+     *
      * Carga todas las relaciones del libro para mostrar información completa.
-     * 
+     *
      * @param Book $book El libro a mostrar (inyección automática por Route Model Binding)
      * @return \Inertia\Response Vista de detalles del libro
      */
@@ -123,10 +123,10 @@ class BookController extends Controller
 
     /**
      * Mostrar formulario para crear un nuevo libro
-     * 
+     *
      * Carga los catálogos necesarios para los campos select del formulario.
      * Verifica autorización con BookPolicy::create
-     * 
+     *
      * @return \Inertia\Response Formulario de creación con catálogos
      */
     public function create()
@@ -134,7 +134,7 @@ class BookController extends Controller
         // Verificar que el usuario tenga permiso para crear libros
         $this->authorize('create', Book::class);
 
-        return Inertia::render('Books/Create', [
+        return Inertia::render('books/create', [
             'publishers' => Publisher::orderBy('name')->get(),
             'languages' => Language::orderBy('name')->get(),
             'categories' => Category::orderBy('name')->get(),
@@ -143,7 +143,7 @@ class BookController extends Controller
 
     /**
      * Guardar un nuevo libro en la base de datos
-     * 
+     *
      * Proceso completo:
      * 1. Verifica autorización (BookPolicy::create)
      * 2. Valida todos los campos del formulario
@@ -153,7 +153,7 @@ class BookController extends Controller
      * 6. Asocia categorías (relación muchos a muchos)
      * 7. Crea registros de contribuidores (autores, editores, etc.)
      * 8. Crea registro de detalles extendidos
-     * 
+     *
      * @param Request $request Datos del formulario validados
      * @return \Illuminate\Http\RedirectResponse Redirección con mensaje de éxito
      * @throws \Illuminate\Validation\ValidationException Si los datos no son válidos
@@ -169,7 +169,7 @@ class BookController extends Controller
             'isbn' => 'required|string|max:20|unique:books,isbn',
             'publisher_id' => 'required|exists:publishers,id',
             'language_code' => 'required|exists:languages,code',
-            'publication_year' => 'nullable|integer|min:1000|max:'.(date('Y') + 1),
+            'publication_year' => 'nullable|integer|min:1000|max:' . (date('Y') + 1),
             'pages' => 'nullable|integer|min:1',
             'book_type' => 'required|in:digital,physical,both',
             'access_level' => 'required|in:free,premium,loan_only',
@@ -190,10 +190,10 @@ class BookController extends Controller
         $validated['slug'] = Str::slug($validated['title']);
         $originalSlug = $validated['slug'];
         $counter = 1;
-        
+
         // Si el slug ya existe, agregar un número al final
         while (Book::where('slug', $validated['slug'])->exists()) {
-            $validated['slug'] = $originalSlug.'-'.$counter;
+            $validated['slug'] = $originalSlug . '-' . $counter;
             $counter++;
         }
 
@@ -228,9 +228,9 @@ class BookController extends Controller
 
     /**
      * Mostrar formulario de edición de un libro existente
-     * 
+     *
      * Carga el libro con sus relaciones y los catálogos necesarios.
-     * 
+     *
      * @param Book $book El libro a editar (inyección automática)
      * @return \Inertia\Response Formulario de edición pre-llenado
      */
@@ -249,7 +249,7 @@ class BookController extends Controller
 
     /**
      * Actualizar un libro existente
-     * 
+     *
      * Proceso completo:
      * 1. Valida los campos (ISBN único excepto el libro actual)
      * 2. Actualiza slug si cambió el título
@@ -257,7 +257,7 @@ class BookController extends Controller
      * 4. Actualiza el libro en la base de datos
      * 5. Sincroniza categorías (elimina no seleccionadas, agrega nuevas)
      * 6. Actualiza contribuidores (elimina todos y recrea)
-     * 
+     *
      * @param Request $request Datos del formulario validados
      * @param Book $book El libro a actualizar
      * @return \Illuminate\Http\RedirectResponse Redirección con mensaje de éxito
@@ -271,10 +271,10 @@ class BookController extends Controller
         // Validación (ISBN puede ser el mismo del libro actual)
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'isbn' => 'required|string|max:20|unique:books,isbn,'.$book->id,
+            'isbn' => 'required|string|max:20|unique:books,isbn,' . $book->id,
             'publisher_id' => 'required|exists:publishers,id',
             'language_code' => 'required|exists:languages,code',
-            'publication_year' => 'nullable|integer|min:1000|max:'.(date('Y') + 1),
+            'publication_year' => 'nullable|integer|min:1000|max:' . (date('Y') + 1),
             'pages' => 'nullable|integer|min:1',
             'book_type' => 'required|in:digital,physical,both',
             'access_level' => 'required|in:free,premium,loan_only',
@@ -298,7 +298,7 @@ class BookController extends Controller
             $counter = 1;
             // Asegurar que el slug sea único (excepto el libro actual)
             while (Book::where('slug', $validated['slug'])->where('id', '!=', $book->id)->exists()) {
-                $validated['slug'] = $originalSlug.'-'.$counter;
+                $validated['slug'] = $originalSlug . '-' . $counter;
                 $counter++;
             }
         }
@@ -346,12 +346,12 @@ class BookController extends Controller
 
     /**
      * Eliminar un libro de forma lógica (soft delete)
-     * 
+     *
      * No elimina físicamente el registro, solo lo marca como eliminado.
      * Esto permite recuperar el libro más tarde si es necesario.
      * Requiere el trait SoftDeletes en el modelo Book.
      * Verifica autorización con BookPolicy::delete (solo admin)
-     * 
+     *
      * @param Book $book El libro a eliminar
      * @return \Illuminate\Http\RedirectResponse Redirección con mensaje de éxito
      */
@@ -369,11 +369,11 @@ class BookController extends Controller
 
     /**
      * Activar o desactivar un libro
-     * 
+     *
      * Alterna el estado is_active del libro entre true y false.
      * Los libros inactivos no se muestran al público en el catálogo.
      * Requiere autorización de BookPolicy::update
-     * 
+     *
      * @param Book $book El libro a cambiar estado
      * @return \Illuminate\Http\RedirectResponse Redirección al listado
      */
@@ -414,5 +414,29 @@ class BookController extends Controller
         $message = $book->featured ? 'marcado como destacado' : 'desmarcado como destacado';
         return back()->with('success', "Libro $message correctamente");
     }
-}
 
+    // En App\Http\Controllers\BookController.php
+    // En App\Http\Controllers\BookController.php
+    public function downloadPdf(Book $book)
+    {
+        // Verificar permisos - usa 'view' en lugar de 'download'
+        $this->authorize('view', $book);
+
+        // Verificar que existe el archivo
+        if (!$book->pdf_file) {
+            abort(404, 'Este libro no tiene archivo PDF asociado');
+        }
+
+        if (!Storage::disk('public')->exists($book->pdf_file)) {
+            abort(404, 'El archivo PDF no se encuentra en el servidor');
+        }
+
+        // Incrementar contador de descargas
+        $book->increment('total_downloads');
+
+        // Descargar archivo con nombre amigable
+        $filename = Str::slug($book->title) . '.pdf';
+
+        return Storage::disk('public')->download($book->pdf_file, $filename);
+    }
+}

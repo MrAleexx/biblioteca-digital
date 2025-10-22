@@ -1,3 +1,4 @@
+// resources/js/layouts/app/app-sidebar-layout.tsx
 import { AppContent } from '@/components/app-content';
 import { AppShell } from '@/components/app-shell';
 import { AppSidebar } from '@/components/app-sidebar';

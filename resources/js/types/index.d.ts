@@ -1,6 +1,7 @@
+// resources/js/types/index.d.ts
 import { InertiaLinkProps } from '@inertiajs/react';
 import { LucideIcon } from 'lucide-react';
-
+export * from './admin/books/index';
 export interface Auth {
     user: User;
 }
@@ -49,3 +50,4 @@ declare module 'framer-motion' {
 declare module 'lucide-react' {
     export * from 'lucide-react';
 }
+

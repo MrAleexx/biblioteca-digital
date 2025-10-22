@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\Response;
 
 /**
  * Policy de autorización para modelo Book
- * 
+ *
  * Define quién puede realizar qué operaciones sobre los libros:
  * - Admin: acceso total (crear, editar, eliminar, ver)
  * - Librarian: puede ver y editar, pero NO eliminar
@@ -19,7 +19,7 @@ class BookPolicy
 {
     /**
      * Determina si el usuario puede ver la lista de libros
-     * 
+     *
      * @param User $user Usuario autenticado
      * @return bool True si puede ver listado
      */
@@ -31,19 +31,19 @@ class BookPolicy
 
     /**
      * Determina si el usuario puede ver un libro específico
-     * 
+     *
      * @param User $user Usuario autenticado
      * @param Book $book Libro a visualizar
      * @return bool True si puede ver el libro
      */
     public function view(User $user, Book $book): bool
     {
-        // Admin y Librarian pueden ver cualquier libro (incluso inactivos)
+        // Admin y Librarian pueden ver/descargar cualquier libro
         if (in_array($user->role, ['admin', 'librarian'])) {
             return true;
         }
 
-        // Members y Guests solo pueden ver libros activos
+        // Users normales solo pueden ver/descargar libros activos
         return $book->is_active;
     }
 
